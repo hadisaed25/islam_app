@@ -5,7 +5,7 @@ import 'package:untitled1/core.dart';
 import '../../main.dart';
 import '../Quran/constant.dart';
 import '../Quran/index.dart';
-import '../Quran/mydrawer.dart';
+import 'mydrawer.dart';
 import '../azkar/evening.dart';
 import '../azkar/morning.dart';
 import '../azkar/sleep.dart';

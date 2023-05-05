@@ -25,6 +25,8 @@ class SurahBuilder extends StatefulWidget {
 class _SurahBuilderState extends State<SurahBuilder> {
   bool view = true;
   bool fabIsClicked = false;
+
+  get index => null;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) => jumbToAyah());
@@ -102,37 +104,9 @@ class _SurahBuilderState extends State<SurahBuilder> {
                 (index != 0) || (widget.sura == 0) || (widget.sura == 8)
                     ? const Text('')
                     : const RetunBasmala(),
-                Container(
-                  // color: index % 2 != 0
-                  //     ? const Color.fromARGB(255, 253, 251, 240)
-                  //     : const Color.fromARGB(255, 253, 247, 230),
-                  child: PopupMenuButton(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: verseBuilder(index, previousVerses),
-                      ),
-                      itemBuilder: (context) => [
-                        PopupMenuItem(
-                          onTap: () {
-                            saveBookMark(widget.sura + 1, index);
-                          },
-                          child: Row(
-                            children:  [
-                              Icon(
-                                Icons.bookmark_add,
-
-            color:GC
-                ,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text('Bookmark'),
-                            ],
-                          ),
-                        ),
-
-                      ]),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: verseBuilder(index, previousVerses),
                 ),
               ],
             );
@@ -189,53 +163,77 @@ class _SurahBuilderState extends State<SurahBuilder> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(primarySwatch: Colors.yellow),
-      home: Scaffold(
-        backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? null // Light theme
-          :GC ,
-        appBar: AppBar(toolbarHeight: 75, shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))),actions:[ IconButton(icon:Icon(Icons.text_fields),onPressed: () {
-          Navigator.pop(context);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const Settings()));
-        },)],
-          leading: Tooltip(
+      home: SafeArea(
+        child: Scaffold(floatingActionButton:FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              view = !view;fabIsClicked = true;
+            });
+          },
+          child: Tooltip(
             message: 'Mushaf Mode',
-            child: TextButton(
-              child: const Icon(
-                Icons.change_circle,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                setState(() {
-                  view = !view;fabIsClicked = true;
-                });
-              },
+            child: Icon(
+              Icons.change_circle,
+              size: 40,
+              color:Theme.of(context).brightness == Brightness.light
+                  ? GreenColor// Light theme
+                  : null,
             ),
           ),
-          centerTitle: true,
-          title: Text(
-            // widget.
-            widget.suraName,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontFamily: 'quran',
-                shadows: [
-                  Shadow(
-                    offset: Offset(1, 1),
-                    blurRadius: 2.0,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
-                ]),
-          ),
+          // Add a background color to the floating action button
           backgroundColor:Theme.of(context).brightness == Brightness.light
-            ? GreenColor // Light theme
+            ? WhiteColor
             : GC,
+          // Add a shape to the floating action button
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
+          // Add elevation to the floating action button
+          elevation: 2,
+          // Add a hero tag to the floating action button to avoid a hero animation conflict
+          heroTag: 'mushaf_mode_button',
         ),
-        body:
-        SingleSuraBuilder(LengthOfSura),
+          backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? null // Light theme
+            :GC ,
+          appBar: AppBar( toolbarHeight: 75, shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))),leadingWidth: 100,leading: Row(children: [IconButton(onPressed: (){saveBookMark(widget.sura + 1, index);}, icon: (Icon(Icons.bookmark))), IconButton(icon:Icon(Icons.text_fields),onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Settings()));
+          },)],
+          ),
+          //   toolbarHeight: 75, shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20))),actions:[ IconButton(icon:Icon(Icons.text_fields),onPressed: () {
+          //   Navigator.pop(context);
+          //   Navigator.push(context,
+          //       MaterialPageRoute(builder: (context) => const Settings()));
+          // },),IconButton(onPressed: (){saveBookMark(widget.sura + 1, index);}, icon: (Icon(Icons.bookmark))),],
+
+            title: Align(alignment: Alignment.centerRight,
+              child: Text(
+                // widget.
+                widget.suraName,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: 'quran',
+                    shadows: [
+                      Shadow(
+                        offset: Offset(1, 1),
+                        blurRadius: 2.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ]),
+              ),
+            ),
+            backgroundColor:Theme.of(context).brightness == Brightness.light
+              ? GreenColor // Light theme
+              : GC,
+          ),
+          body:
+          SingleSuraBuilder(LengthOfSura),
+        ),
       ),
     );
   }

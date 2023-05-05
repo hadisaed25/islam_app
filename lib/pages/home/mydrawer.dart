@@ -7,7 +7,7 @@ import 'package:untitled1/core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-import 'constant.dart';
+import '../Quran/constant.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({

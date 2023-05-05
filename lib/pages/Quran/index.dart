@@ -108,10 +108,10 @@ class _IndexPageState extends State<IndexPage> {
                 child: TextButton(
                   child: Row(
                     children: [
-                      ArabicSuraNumber(i: i),
-                      const SizedBox(
-                        width: 5,
-                      ),
+                      // ArabicSuraNumber(i: i),
+                      // const SizedBox(
+                      //   width: 5,
+                      // ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
